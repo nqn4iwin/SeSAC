@@ -1,0 +1,32 @@
+name: Deploy to EC2
+
+on:
+  push:
+    #    branches: [ main ]
+    branches: [ deploy/githubaction ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.1.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
+          script: |
+            BRANCH="${{ github.ref_name }}"
+            echo "Deploying branch: $BRANCH"
+            cd /home/ubuntu/workspace/deploy/upstage-network-lecture
+            
+            # 원격 브랜치 가져오기 및 체크아웃
+            git fetch origin "$BRANCH"
+            git checkout "$BRANCH"
+            git pull origin "$BRANCH"
+            
+            # 시작 스크립트 실행  
+            sh start.sh

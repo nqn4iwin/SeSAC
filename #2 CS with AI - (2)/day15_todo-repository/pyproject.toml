@@ -1,0 +1,18 @@
+[project]
+name = "todo-repository"
+version = "0.1.0"
+description = "FastAPI TODO List with Docker MySQL"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi>=0.100.0",
+    "uvicorn>=0.20.0",
+    "pymysql>=1.1.0",
+    "cryptography>=41.0.0",
+    "mysql-connector-python>=9.5.0",
+]
+
+[tool.uv]
+dev-dependencies = [
+    "pytest>=7.0.0",
+]
