@@ -25,20 +25,20 @@ class LumiState(TypedDict):
 
 
 def create_initial_state(
-        session_id: str,
-        user_id: str | None = None,
-        messages: list[BaseMessage] | None = None
+    session_id: str,
+    user_id: str | None = None,
+    messages: list[BaseMessage] | None = None,
 ) -> LumiState:
     """
     초기 상태를 설정
     """
     return LumiState(
         messages=messages or [],
-        intent = None,
+        intent=None,
         retrieved_docs=[],
         tool_name=None,
         tool_args=None,
         tool_result=None,
         session_id=session_id,
-        user_id=user_id
+        user_id=user_id,
     )

@@ -12,4 +12,5 @@ Production 수준의 아키텍처를 구현합니다.
 """
 
 from dotenv import load_dotenv
+
 load_dotenv(override=True)

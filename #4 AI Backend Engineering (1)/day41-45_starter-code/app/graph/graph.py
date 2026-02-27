@@ -10,8 +10,9 @@ from loguru import logger
 from app.graph.edges import route_by_intent
 from app.graph.nodes import router_node, rag_node, tool_node, response_node
 from app.graph.state import LumiState
- 
+
 _compiled_graph = None
+
 
 def create_lumi_graph() -> StateGraph:
     logger.info("LangGraph 그래프 생성 시작")
@@ -42,6 +43,7 @@ def create_lumi_graph() -> StateGraph:
     compiled = builder.compile()
 
     return compiled
+
 
 def get_lumi_graph():
     """

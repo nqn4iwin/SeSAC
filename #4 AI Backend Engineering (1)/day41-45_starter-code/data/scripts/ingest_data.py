@@ -69,6 +69,7 @@ SAMPLE_SCHEDULES = [
     },
 ]
 
+
 async def create_supabase_client():
     """
     Supabase 클라이언트를 생성합니다.
@@ -112,7 +113,9 @@ async def insert_sample_schedules(client) -> int:
 
     except Exception as e:
         logger.error(f"스케줄 데이터 삽입 실패: {e}")
-        logger.info("테이블이 존재하지 않을 수 있습니다. data/supabase_schema.sql을 먼저 실행하세요.")
+        logger.info(
+            "테이블이 존재하지 않을 수 있습니다. data/supabase_schema.sql을 먼저 실행하세요."
+        )
         return 0
 
 
@@ -142,7 +145,6 @@ async def main():
 
     except Exception as e:
         logger.error(f"데이터 적재 중 오류 발생: {e}")
-
 
 
 if __name__ == "__main__":

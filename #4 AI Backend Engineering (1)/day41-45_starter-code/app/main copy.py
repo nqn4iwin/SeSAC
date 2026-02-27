@@ -7,7 +7,7 @@ import sys
 from app.core.config import settings
 
 
-logger.remove() 
+logger.remove()
 logger.add(
     sys.stdout,
     format="<green>{time:YYYY-MM-DD HH:mm:ss}</green> | <level>{level: <8}</level> | <cyan>{name}</cyan>:<cyan>{function}</cyan>:<cyan>{line}</cyan> - <level>{message}</level>",
@@ -33,7 +33,9 @@ async def lifespan(app: FastAPI):
 
 def _validate_settings():
     if not settings.upstage_api_key:
-        logger.warning("UPSTAGE_API_KEY가 설정되지 않았습니다. LLM 기능을 사용할 수 없습니다.")
+        logger.warning(
+            "UPSTAGE_API_KEY가 설정되지 않았습니다. LLM 기능을 사용할 수 없습니다."
+        )
 
     if settings.environment == "production" and settings.debug:
         logger.warning("Production 환경에서 DEBUG 모드가 활성화되어 있습니다!")

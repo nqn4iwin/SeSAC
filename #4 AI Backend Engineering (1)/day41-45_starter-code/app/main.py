@@ -15,7 +15,9 @@ API 문서:
     - Swagger UI: http://localhost:8000/docs
     - ReDoc: http://localhost:8000/redoc
 """
+
 from dotenv import load_dotenv
+
 load_dotenv(override=True)
 
 from contextlib import asynccontextmanager
@@ -29,10 +31,9 @@ import gradio as gr
 from loguru import logger
 from app.core.config import settings
 from app.api.routes import api_router
-from app.graph import get_lumi_graph
 from app.ui import create_demo
 
-logger.remove() 
+logger.remove()
 logger.add(
     sys.stdout,
     format="<green>{time:YYYY-MM-DD HH:mm:ss}</green> | <level>{level: <8}</level> | <cyan>{name}</cyan>:<cyan>{function}</cyan>:<cyan>{line}</cyan> - <level>{message}</level>",
@@ -72,10 +73,11 @@ async def lifespan(app: FastAPI):
 
     try:
         from app.graph import get_lumi_graph
+
         graph = get_lumi_graph()
         logger.info("LangGraph 그래프 컴파일 완료")
-    except Exception as e:
-        logger.error(f"LangGraph 초기화 실패")
+    except Exception:
+        logger.error("LangGraph 초기화 실패")
 
     yield  # 이 지점에서 서버가 요청을 처리함
 
@@ -91,7 +93,9 @@ def _validate_settings():
     설정되지 않은 경우 경고 로그를 출력합니다.
     """
     if not settings.upstage_api_key:
-        logger.warning("UPSTAGE_API_KEY가 설정되지 않았습니다. LLM 기능을 사용할 수 없습니다.")
+        logger.warning(
+            "UPSTAGE_API_KEY가 설정되지 않았습니다. LLM 기능을 사용할 수 없습니다."
+        )
 
     if settings.environment == "production" and settings.debug:
         logger.warning("Production 환경에서 DEBUG 모드가 활성화되어 있습니다!")
@@ -142,10 +146,11 @@ app = gr.mount_gradio_app(app, gradio_app, path="/ui")
 logger.info("Gradio UI 마운트 완료: /ui")
 
 # FastAPI에서 API 엔드포인트를 정의
-    # @app.get : GET 요청을 처리한다. 데이터 조회
-    # @app.post : POST 요청을 처리한다. 데이터 생성
-    # "/" : URL 경로(Endpoint)를 의미
-    # tags : API 문서에서 그룹화할 태그 이름
+# @app.get : GET 요청을 처리한다. 데이터 조회
+# @app.post : POST 요청을 처리한다. 데이터 생성
+# "/" : URL 경로(Endpoint)를 의미
+# tags : API 문서에서 그룹화할 태그 이름
+
 
 @app.get("/", tags=["Root"])
 def root():
@@ -153,6 +158,7 @@ def root():
     루트로 접속했을 때(/) -> Gradio가 나오도록 하고 싶다
     """
     return RedirectResponse(url="/ui")
+
 
 @app.get("/api", tags=["Root"])
 async def root() -> dict:
@@ -164,7 +170,6 @@ async def root() -> dict:
             "redoc": "/redoc",
         },
         "ui": "/ui",
-
     }
 
 

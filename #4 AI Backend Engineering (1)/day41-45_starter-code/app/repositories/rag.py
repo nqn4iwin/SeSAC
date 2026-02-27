@@ -5,6 +5,7 @@ from supabase import create_client, Client
 
 from app.core.config import settings
 
+
 class RAGRepository:
     """
     RAG를 위한 문서 검색 Repository
@@ -26,17 +27,15 @@ class RAGRepository:
         RAGRepository 초기화
         """
         self.embeddings = UpstageEmbeddings(
-            api_key = settings.upstag_api_key,
-            model="solar-embedding-1-large-passage"
+            api_key=settings.upstag_api_key, model="solar-embedding-1-large-passage"
         )
 
-        self.supabase : Client = create_client(
-            settings.supabase_url,
-            settings.supabase_key
+        self.supabase: Client = create_client(
+            settings.supabase_url, settings.supabase_key
         )
 
         logger.info("RAGRepository 초기화 완료 (필터링 지원)")
-    
+
     async def search_similar(
         self,
         query: str,
@@ -49,7 +48,7 @@ class RAGRepository:
         메타데이터 필터링 추가
         - filter_status="active" v2.5(현행) 문서만 검색
         - filter_status="all": v1.0(폐기) 포함 모든 문서 검색
-        
+
         Args:
             query: 검색 쿼리
             k: 반환할 문서 수 (기본값: 3)
@@ -70,10 +69,10 @@ class RAGRepository:
 
             >>> # 모든 문서 검색 (테스트용)
             >>> docs = await repo.search_similar("마늘 좋아해?", filter_status="all")
-            >>> # 결과: v1.0 "뱀파이어라 마늘 싫어함"도 포함될 수 있음 
-        
+            >>> # 결과: v1.0 "뱀파이어라 마늘 싫어함"도 포함될 수 있음
+
         """
-        logger.info(f"RAG 검색: '{query[:30]}...' (k={k}, filter={filter_status})" )
+        logger.info(f"RAG 검색: '{query[:30]}...' (k={k}, filter={filter_status})")
 
         try:
             # [설명] 검색 과정
@@ -95,8 +94,8 @@ class RAGRepository:
                 {
                     "query_embedding": query_embedding,
                     "match_count": k,
-                    "filter_status": filter_status #필터링?
-                }
+                    "filter_status": filter_status,  # 필터링?
+                },
             ).execute()
 
             docs = result.data or []
@@ -107,16 +106,16 @@ class RAGRepository:
                 status = doc.get("metadata", {}).get("status", "?")
                 similarity = doc.get("similarity", 0)
                 logger.debug(f" -v{version} ({status}): {similarity:.3f}")
-            
+
             logger.info(f"RAG 검색 결과: {len(docs)}개 문서")
 
             return docs
-        
+
         except Exception as e:
             logger.error(f"RAG 검색 실패: {e}")
             return []
-        
-    async def search_without_filter(self, query: str, k: int=3) -> list[dict]:
+
+    async def search_without_filter(self, query: str, k: int = 3) -> list[dict]:
         """
         필터링 없이 검색 (시연용)
 
@@ -126,15 +125,17 @@ class RAGRepository:
         Args:
             query: 검색 쿼리
             k: 반환할 문서 수
-        
+
         Returns:
             list[dict]: 모든 문서에서 검색 (폐기 문서 포함)
         """
         logger.warning("필터링 없이 검색 중 (시연용)")
         return await self.search_similar(query, k, filter_status="all")
-    
+
+
 # 싱글톤 인스턴스
 _rag_repository: RAGRepository | None = None
+
 
 def get_rag_repository() -> RAGRepository:
     """
@@ -148,4 +149,4 @@ def get_rag_repository() -> RAGRepository:
     if _rag_repository is None:
         _rag_repository = RAGRepository()
 
-    return _rag_repository 
+    return _rag_repository

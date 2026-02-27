@@ -12,7 +12,6 @@ Production에서는 환경변수를 통해 설정을 주입받습니다.
     db_url = settings.supabase_url
 """
 
-import os
 from functools import lru_cache
 from typing import Literal
 
@@ -60,10 +59,7 @@ class Settings(BaseSettings):
     port: int = 8000
 
     model_config = SettingsConfigDict(
-        env_file=".env",
-        env_file_encoding="utf-8",
-        case_sensitive=False,
-        extra="ignore"
+        env_file=".env", env_file_encoding="utf-8", case_sensitive=False, extra="ignore"
     )
 
     # pydantic-settings 설정
@@ -77,6 +73,7 @@ class Settings(BaseSettings):
         # 추가 필드 무시 (환경변수에 정의되지 않은 값)
         extra="ignore",
     )
+
 
 #
 

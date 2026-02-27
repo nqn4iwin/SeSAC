@@ -8,6 +8,7 @@ from app.core.config import settings
 
 router = APIRouter()
 
+
 @router.get("/")
 async def health_check() -> dict:
     """
@@ -18,5 +19,5 @@ async def health_check() -> dict:
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "service": "lumi-agent",
         "version": "0.5.0",
-        "environment": settings.environment
+        "environment": settings.environment,
     }
