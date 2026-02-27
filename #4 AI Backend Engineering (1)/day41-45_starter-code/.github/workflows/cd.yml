@@ -66,7 +66,7 @@ jobs:
   build-and-push:
     name: Build & Push to GHCR
     runs-on: ubuntu-latest
-    # 롤백 시에는 빌드 스킵
+    # 롤백 시에는 빌드 스킵 
     if: ${{ !inputs.rollback }}
 
     outputs:
