@@ -32,11 +32,15 @@ on:
   push:
     branches: [main]
     paths:
-      - 'day41-45_starter-code/app/**'
-      - 'day41-45_starter-code/Dockerfile'
-      - 'day41-45_starter-code/docker-compose.yml'
-      - 'day41-45_starter-code/pyproject.toml'
-      - 'day41-45_starter-code/uv.lock'
+      - 'app/**'
+      - 'tests/**'
+      - 'pyproject.toml'
+      - 'uv.lock'
+      - '.github/workflows/**'
+      - 'Dockerfile'
+      - 'docker-compose.yml'
+      - '.dockerignore'
+      - '!**/*.md'
   # 여기에 구현하세요!
 
   # 수동 실행 허용 (긴급 배포/롤백용)
