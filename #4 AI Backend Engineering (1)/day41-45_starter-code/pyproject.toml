@@ -72,3 +72,8 @@ target-version = "py311"
 [tool.black]
 line-length = 88
 target-version = ["py311"]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.2",
+]
