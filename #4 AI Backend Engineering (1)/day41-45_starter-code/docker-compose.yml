@@ -1,0 +1,40 @@
+# Docker Compose
+# 여러 컨테이너로 구성된 애플리케이션을 정의하고 실행하기 위한 도구
+# 사용법
+# docker-compose up -d : 백그라운드 모드로 실행
+# docker-compose logs -f : 실시간 로그 확인
+# docker-compose down : 컨테이너 중지 및 제거
+
+services:
+  lumi-agents:
+    # 사용할 Docker 이미지 이름. LUMI_IMAGE 환경변수가 있으면 그걸 쓰고, 없으면 lumi-agnet:latest를 쓴다
+    image: ${LUMI_IMAGE:-lumi-agent:latest}
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: lumi-agent
+
+    ports:
+      # 호스트포트:컨테이너포트
+      - "8000:8000"
+
+    environment:
+      - UPSTAGE_API_KEY=${UPSTAGE_API_KEY}
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_KEY=${SUPABASE_KEY}
+      - ENVIRONMENT=${ENVIRONMENT:-production}
+      - DEBUG=false
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+    # 컨테이너가 종료되었을 때 자동으로 재시작하는 정책을 설정
+      # no : 재시작 안 함
+      # always : 항상 재시작
+      # on-failure : 비정상 종료시에만 재시작
+      # unless-stopped : 수동으로 중지하지 않는 한 항상 재시작
+    restart: unless-stopped
