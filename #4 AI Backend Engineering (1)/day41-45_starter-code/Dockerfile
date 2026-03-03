@@ -30,7 +30,7 @@ COPY --from=builder /app/.venv /app/.venv
 COPY app/ ./app/
 
 # daily mission에서는 여기 삭제!
-COPY data/ ./data/ 
+COPY data/ ./data/
 
 COPY pyproject.toml README.md ./
 
@@ -46,7 +46,7 @@ USER appuser
 # PYTHONDONTWRITEBYTECODE=1 : .pyc 파일 생성 X
 # PATH : 가상 환경의 bin 디렉토리를 PATH에 추가해야 패키지 실행
 ENV PYTHONBUFFERED=1 \
-    PYTHONDONTWRITEBYTECODE=1 \ 
+    PYTHONDONTWRITEBYTECODE=1 \
     PATH="/app/.venv/bin:$PATH"
 
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \

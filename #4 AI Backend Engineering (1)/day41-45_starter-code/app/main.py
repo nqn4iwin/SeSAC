@@ -18,8 +18,6 @@ API 문서:
 
 from dotenv import load_dotenv
 
-load_dotenv(override=True)
-
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
@@ -32,6 +30,8 @@ from loguru import logger
 from app.core.config import settings
 from app.api.routes import api_router
 from app.ui import create_demo
+
+load_dotenv(override=True)
 
 logger.remove()
 logger.add(
@@ -74,7 +74,7 @@ async def lifespan(app: FastAPI):
     try:
         from app.graph import get_lumi_graph
 
-        graph = get_lumi_graph()
+        # graph = get_lumi_graph()
         logger.info("LangGraph 그래프 컴파일 완료")
     except Exception:
         logger.error("LangGraph 초기화 실패")
@@ -151,14 +151,14 @@ logger.info("Gradio UI 마운트 완료: /ui")
 # "/" : URL 경로(Endpoint)를 의미
 # tags : API 문서에서 그룹화할 태그 이름
 
-
+"""
 @app.get("/", tags=["Root"])
 def root():
-    """
-    루트로 접속했을 때(/) -> Gradio가 나오도록 하고 싶다
-    """
+    
+    # 루트로 접속했을 때(/) -> Gradio가 나오도록 하고 싶다
+    
     return RedirectResponse(url="/ui")
-
+"""
 
 @app.get("/api", tags=["Root"])
 async def root() -> dict:

@@ -211,7 +211,7 @@ async def response_node(state: LumiState) -> dict:
         result_context = f"""
         ## 조회 결과 (내부 참고용, 절대 그대로 출력하지 마!)
         tool_name : {tool_name}, tool_result : {json.dumps(tool_result, ensure_ascii=False, indent=2)}
-        
+
         ## 규칙
         - 위 결과를 바탕으로 루미답게 친근하게 안내해줘
         - 성공한 경우: 결과를 자연스럽게 전달 (예: "이번 주 금요일에 뮤직뱅크 나와!")

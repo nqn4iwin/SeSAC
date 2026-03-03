@@ -10,7 +10,7 @@ def get_db():
         port=3306,
         user="tester",
         password="tester",
-        database="llmagent"
+        database="llmagent",
     )
 
 

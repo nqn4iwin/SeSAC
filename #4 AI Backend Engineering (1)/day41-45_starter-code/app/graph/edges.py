@@ -10,7 +10,6 @@ from app.graph.state import LumiState
 
 
 def route_by_intent(state: LumiState) -> Literal["rag", "tool", "response"]:
-
     intent = state.get("intent", "chat")
     logger.debug(f"🔀 [Edge] 라우팅 결정: intent={intent}")
 

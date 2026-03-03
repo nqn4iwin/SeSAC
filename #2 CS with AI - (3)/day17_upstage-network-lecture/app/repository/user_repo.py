@@ -10,12 +10,7 @@ class UserRepository:
         self._next_id = 1
 
     def save(self, name: str, email: str) -> User:
-        user = User(
-            id=self._next_id,
-            name=name,
-            email=email,
-            created_at=datetime.now()
-        )
+        user = User(id=self._next_id, name=name, email=email, created_at=datetime.now())
         self._users_memory_db[self._next_id] = user
         self._next_id += 1
         return user

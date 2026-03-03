@@ -19,11 +19,18 @@ class UserService:
         # save 추가
         user = self.user_repo.save(name=name, email=email)
 
-        return  {'id': user.id, 'name': user.name,
-                'email': user.email, 'created_at': str(user.created_at)}
-
+        return {
+            "id": user.id,
+            "name": user.name,
+            "email": user.email,
+            "created_at": str(user.created_at),
+        }
 
     def get_user(self, user_id: int) -> Dict[str, Any]:
         user = self.user_repo.find_by_id(user_id=user_id)
-        return {'id': user.id, 'name': user.name,
-                'email': user.email, 'created_at': str(user.created_at)}
+        return {
+            "id": user.id,
+            "name": user.name,
+            "email": user.email,
+            "created_at": str(user.created_at),
+        }

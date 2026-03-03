@@ -6,7 +6,7 @@
 
 [project]
 name = "lumi-agent"
-version = "0.3.0"  
+version = "0.3.0"
 description = "루미(Lumi) - 버추얼 아이돌 AI 에이전트 서비스"
 readme = "README.md"
 requires-python = ">=3.11"
